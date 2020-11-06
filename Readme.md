@@ -15,7 +15,8 @@ Na hora de compilar
 
 ```
 Acesse o local aonde está o msys
-Vá até a pasta home
+Abra o programa MSYS2
+Na mesma pasta vá até a pasta home
 E depois vá para a pasta onde estiver o seu nome de user
 mkdir Verificador
 $ git clone https://github.com/Diaszano/Verificador-com-interface-grafica.git Verificador
