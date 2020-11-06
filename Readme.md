@@ -7,9 +7,9 @@ O projeto vai ser desenvolvido totalmente em C.
 
 Para poder compilar o programa tu vai precisar ter instalado GTK no teu computador
 Então tu segue esses passos:    
-```  
-1. [Acesse esse site e faça a instalação como é descrita lá](https://www.gtk.org/docs/installations/windows/)
-```
+
+[Acesse esse site e faça a instalação como é descrita lá](https://www.gtk.org/docs/installations/windows/)
+
 
 Na hora de compilar
 
