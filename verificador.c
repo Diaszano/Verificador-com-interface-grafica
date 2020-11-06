@@ -8,8 +8,9 @@
 #include <locale.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
-#include <time.h>
+#include <windows.h>
 /*********************************************************************************************************************/
+
 
 //Variaveis globais
 /*********************************************************************************************************************/
@@ -20,6 +21,7 @@ GtkListStore *modelo;
 GtkLabel *label;
 int tam = 0;
 /*********************************************************************************************************************/
+
 
 //Declarações de funções
 /*********************************************************************************************************************/
@@ -42,20 +44,7 @@ void on_button_criacao_cpf_voltar_clicked(GtkWidget *widget, gpointer data);
 //###########################################################
 int main(int argc, char *argv[]);
 /*********************************************************************************************************************/
-//Funções
-/*********************************************************************************************************************/
-struct tm {
-    int tm_sec;
-    int tm_min;
-    int tm_hour;
-    int tm_mday:
-    int tm_mon;
-    int tm_year;
-    int tm_wday;
-    int tm_yday;
-    int tm_isdst;
-};
-/*********************************************************************************************************************/
+
 //Funções
 /*********************************************************************************************************************/
 void conversao_char_int(char cpf_char[14], int cpf_int[11]){
@@ -149,10 +138,7 @@ void conversao_int_char(char cpf_char[14], int cpf_int[11]){
 				cpf_char[i] = '9';
 					break;
         }
-		cpf_char[i+1] = '\0';
     }
-	cpf_char[i] = '\0';
-    cpf_char[i+1] = '\0';
 }
 void juntar_string(char *primeira,char *segunda,char *recebe){
     int i,j;
@@ -199,25 +185,51 @@ void criacao(char cpf[14]){
 	time_t t;
 	int i,j;
 	int criado[11];
-    struct tm *data_hora_atual;
-    time_t segundos;
-    time(&segundos);
+
 	srand((unsigned) time(&t));
 
 	for(i=0;i<9;i++){
-        temp = rand() % 10;
-        data_hora_atual = localtime(&segundos);
-        temp = temp * data_hora_atual->tm_sec;
-        for(;temp <= 10;){
-            divisor = rand() % 7;
-            temp = temp /  divisor;
-        }
-        criado[i] = temp;
+        criado[i] = rand() % 10;
     }
 	verificacao(criado, 10 , 0);
 	verificacao(criado, 11 , 0);
+
     conversao_int_char(cpf, criado);
 
+}
+void estado(int num){
+	switch (num){
+        case 0:
+			printf("\nO CPF é correspondente ao estado brasileiro: Rio Grande do Sul.");
+				break;
+		case 1:
+			printf("\nO CPF é correspondentes aos estados brasileiros:  Distrito Federal, Goiás, Mato Grosso do Sul e Tocantins.");
+				break;
+		case 2:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Pará, Amazonas, Acre, Amapá, Rondônia e Roraima.");
+				break;
+		case 3:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Ceará, Maranhão e Piauí.");
+				break;
+		case 4:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Pernambuco, Rio Grande do Norte, Paraíba e Alagoas.");
+				break;
+		case 5:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Bahia e Sergipe.");
+				break;
+		case 6:
+			printf("\nO CPF é correspondente ao estado brasileiro: Minas Gerais.");
+                break;
+        case 7:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Rio de Janeiro e Espírito Santo.");
+                break;
+        case 8:
+			printf("\nO CPF é correspondente ao estado brasileiro: São Paulo.");
+				break;
+		case 9:
+			printf("\nO CPF é correspondentes aos estados brasileiros: Paraná e Santa Catarina.");
+				break;
+	}
 }
 void mensagem(char text[100], char secondary_text[100], char icon_name[100]){
     GtkMessageDialog *mensagem_dialogo = gtk_builder_get_object(builder, "mensagem");
@@ -255,15 +267,11 @@ void on_button_verificar_cpf_voltar_clicked(GtkWidget *widget, gpointer data){
     gtk_stack_set_visible_child_name(stack,"view_inicial");
 }
 void on_button_criacao_cpf_criar_clicked(GtkWidget *widget, gpointer data){
-    char texto[100],cpf[14];
+    char texto[100],cpf[15];
     label = GTK_LABEL(gtk_builder_get_object(builder, "label_criacao"));
     criacao(cpf);
     //juntar_string("CPF;  ",cpf,texto);
-	//printf("%s\n",cpf);
-	//cpf[14] = '\0';
-	//printf("%s\n",cpf);
     gtk_label_set_text(label,cpf);
-	
     //mensagem("CPF criado", texto, "emblem-default");
 }
 void on_button_criacao_cpf_voltar_clicked(GtkWidget *widget, gpointer data){
@@ -273,10 +281,10 @@ void on_button_criacao_cpf_voltar_clicked(GtkWidget *widget, gpointer data){
 //#################################
 int main(int argc, char *argv[]){
 
-    //FreeConsole();
+    FreeConsole();
     gtk_init(&argc, &argv);
 
-    builder = gtk_builder_new_from_file("infos/ui.glade");
+    builder = gtk_builder_new_from_file("infos\\ui.glade");
 
     gtk_builder_add_callback_symbols(builder,
         "on_main_window_destroy",                    G_CALLBACK(on_main_window_destroy),
